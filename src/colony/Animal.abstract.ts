@@ -26,26 +26,26 @@ export abstract class Animal {
   move(speed, FIELD_WIDTH: number, direction: Direction): void {
     switch (direction) {
       case Direction.UP_RIGHT:
-        if (this.getPosition.y > 1 || this.getPosition.x < 1) {
-          this.getPosition.y -= speed;
-          this.getPosition.x += speed;
+        if (this.getPosition.x > 0 && this.getPosition.y < FIELD_WIDTH) {
+          this.getPosition.x -= speed;
+          this.getPosition.y += speed;
         }
         break;
       case Direction.UP_LEFT:
-        if (this.getPosition.y > 1 || this.getPosition.x < 1) {
-          this.getPosition.y -= speed;
+        if (this.getPosition.x > 0 && this.getPosition.y > 0) {
           this.getPosition.x -= speed;
+          this.getPosition.y -= speed;
         }
         break;
 
       case Direction.DOWN_LEFT:
-        if (this.getPosition.y < FIELD_WIDTH || this.getPosition.x < FIELD_WIDTH) {
-          this.getPosition.y += speed;
+        if (this.getPosition.x > 0 && this.getPosition.y < FIELD_WIDTH) {
           this.getPosition.x -= speed;
+          this.getPosition.y += speed;
         }
         break;
       case Direction.DOWN_RIGHT:
-        if (this.getPosition.y < FIELD_WIDTH || this.getPosition.x < FIELD_WIDTH) {
+        if (this.getPosition.x < FIELD_WIDTH && this.getPosition.y < FIELD_WIDTH) {
           this.getPosition.y += speed;
           this.getPosition.x += speed;
         }
@@ -61,7 +61,7 @@ export abstract class Animal {
         }
         break;
       case Direction.UP:
-        if (this.getPosition.y > 1) {
+        if (this.getPosition.y > 0) {
           this.getPosition.y -= speed;
         }
         break;
