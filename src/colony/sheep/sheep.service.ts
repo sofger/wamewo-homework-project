@@ -52,27 +52,31 @@ export class SheepService {
   getNextDirection(sheepId: number, wolfPosition: Coordinates): Direction {
     let sheep = this.findSheep(sheepId);
     // <-----------------up------------------>
-    if (sheep.getPosition.y < wolfPosition.y) {
-      if (sheep.getPosition.x < wolfPosition.x) {
-        return Direction.UP_LEFT;
-      } else if (sheep.getPosition.x > wolfPosition.x) {
-        return Direction.UP_RIGHT;
-      }
+    if (sheep.getPosition.y < wolfPosition.y && sheep.getPosition.x < wolfPosition.x) {
+      return Direction.UP_LEFT;
+    }
+    if (sheep.getPosition.y < wolfPosition.y && sheep.getPosition.x > wolfPosition.x) {
+      return Direction.UP_RIGHT;
+    }
+    if (sheep.getPosition.y < wolfPosition.y && sheep.getPosition.x === wolfPosition.x) {
       return Direction.UP;
     }
     // <-----------------down------------------>
-    if (sheep.getPosition.y > wolfPosition.y) {
-      if (sheep.getPosition.x < wolfPosition.x) {
-        return Direction.DOWN_LEFT;
-      } else if (sheep.getPosition.x > wolfPosition.x) {
-        return Direction.DOWN_RIGHT;
-      }
+    if (sheep.getPosition.y > wolfPosition.y && sheep.getPosition.x < wolfPosition.x) {
+      return Direction.DOWN_LEFT;
+    }
+    if (sheep.getPosition.y > wolfPosition.y && sheep.getPosition.x > wolfPosition.x) {
+      return Direction.DOWN_RIGHT;
+    }
+    if (sheep.getPosition.y > wolfPosition.y && sheep.getPosition.x === wolfPosition.x) {
       return Direction.DOWN;
     }
     // <-----------------Right------------------>
     if (sheep.getPosition.x > wolfPosition.x) {
       return Direction.RIGHT;
-    } else {// <-----------------Left------------------>
+    }
+    // <-----------------Left------------------>
+    if (sheep.getPosition.x < wolfPosition.x) {
       return Direction.LEFT;
     }
   }
