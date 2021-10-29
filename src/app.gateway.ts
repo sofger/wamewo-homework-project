@@ -21,12 +21,12 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
     return this._FIELD_SIZE;
   }
 
-  public get logger(): Logger {
-    return this._logger;
-  }
-
   set FIELD_SIZE(value: number) {
     this._FIELD_SIZE = value;
+  }
+
+  public get logger(): Logger {
+    return this._logger;
   }
 
   get wss(): Server {
@@ -40,6 +40,11 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
     this.FIELD_SIZE = 400;
   }
 
+  /**
+   * Handles incoming connnection
+   * @param client
+   * @param args
+   */
   async handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`Connected! ${client.id}`);
   }
