@@ -15,6 +15,20 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
 
   @WebSocketServer() private _wss: Server;
 
+  private _FIELD_SIZE: number;
+
+  get FIELD_SIZE(): number {
+    return this._FIELD_SIZE;
+  }
+
+  public get logger(): Logger {
+    return this._logger;
+  }
+
+  set FIELD_SIZE(value: number) {
+    this._FIELD_SIZE = value;
+  }
+
   get wss(): Server {
     return this._wss;
   }
