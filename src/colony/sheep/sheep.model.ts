@@ -1,5 +1,5 @@
 import { Coordinates } from "../../coordinates/coordinates.model";
-import { Animal } from "../Animal.super";
+import { Animal } from "../Animal.abstract";
 
 
 export class SheepModel extends Animal {
