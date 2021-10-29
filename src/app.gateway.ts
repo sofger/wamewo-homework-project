@@ -46,7 +46,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
   afterInit(server: Server) {
     this.logger.log("Init!");
     this.wss.emit("msgToClient", "Init!");
-    this.FIELD_SIZE = 400;
+    this.FIELD_SIZE = 600;
     this.generateAnimals(10);
   }
 
@@ -82,20 +82,25 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
    */
   private async startSimulation() {
     let webSocketService = this.wss;
-    let x = 500;
-    while (x > 0) {
+    let sheeps = this.sheepController.getAllSheeps();
+    let wolfSpeed = 11;
+    do {
       let wolf = this.wolfController.getWolf();
-      let sheeps = this.sheepController.getAllSheeps();
+      sheeps = this.sheepController.getAllSheeps();
+      if (sheeps.length === 0) break;
       this.sheepController.updateSheepPositions(1, wolf.getPosition, this.FIELD_SIZE);
-      this.wolfController.updateWolfPosition(2, sheeps, this.FIELD_SIZE);
-      let consumableSheep = this.wolfController.getSheepIfWolfCanConsumeIt(sheeps);
-      if (consumableSheep) {
-        this.sheepController.removeSheep(consumableSheep);
-      }
+      this.wolfController.updateWolfPosition(wolfSpeed, sheeps, this.FIELD_SIZE);
       await Utils.delay(50);
       webSocketService.emit("wolf", wolf);
       webSocketService.emit("sheeps", sheeps);
-      x--;
-    }
+      let consumableSheep = this.wolfController.getSheepIfWolfCanConsumeIt(sheeps);
+      if (consumableSheep) {
+        this.sheepController.removeSheep(consumableSheep);
+        this.wolfController.updateWolfSize(1);
+        wolfSpeed--;
+      }
+    } while (sheeps.length > 0);
+    this.logger.log("Simulation Ended!");
+    webSocketService.emit("end");
   }
 }

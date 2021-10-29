@@ -37,5 +37,11 @@ socket.on("sheeps", (sheeps) => {
   updateSheeps(sheeps);
 });
 
-canvas.width = 500;
-canvas.height = 500;
+socket.on("end", () => {
+  resultContainer.insertAdjacentHTML("afterbegin", `
+  <h1>All the sheepoos are dead:(</h1>
+  `);
+});
+
+canvas.width = 610;
+canvas.height = 610;
