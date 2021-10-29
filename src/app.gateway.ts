@@ -82,20 +82,21 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
    */
   private async startSimulation() {
     let webSocketService = this.wss;
-    let x = 500;
-    while (x > 0) {
+    let sheeps = this.sheepController.getAllSheeps();
+    do {
       let wolf = this.wolfController.getWolf();
-      let sheeps = this.sheepController.getAllSheeps();
+      sheeps = this.sheepController.getAllSheeps();
+      if (sheeps.length === 0) break;
       this.sheepController.updateSheepPositions(1, wolf.getPosition, this.FIELD_SIZE);
       this.wolfController.updateWolfPosition(2, sheeps, this.FIELD_SIZE);
+      await Utils.delay(20);
+      webSocketService.emit("wolf", wolf);
+      webSocketService.emit("sheeps", sheeps);
       let consumableSheep = this.wolfController.getSheepIfWolfCanConsumeIt(sheeps);
       if (consumableSheep) {
         this.sheepController.removeSheep(consumableSheep);
       }
-      await Utils.delay(50);
-      webSocketService.emit("wolf", wolf);
-      webSocketService.emit("sheeps", sheeps);
-      x--;
-    }
+    } while (sheeps.length > 0);
+    this.logger.log("Simulation Ended!");
   }
 }
