@@ -84,8 +84,10 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
     let webSocketService = this.wss;
     let sheeps = this.sheepController.getAllSheeps();
     let wolfSpeed = 11;
+    let wolf;
+    let consumableSheep;
     do {
-      let wolf = this.wolfController.getWolf();
+      wolf = this.wolfController.getWolf();
       sheeps = this.sheepController.getAllSheeps();
       if (sheeps.length === 0) break;
       this.sheepController.updateSheepPositions(1, wolf.getPosition, this.FIELD_SIZE);
@@ -93,7 +95,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
       await Utils.delay(50);
       webSocketService.emit("wolf", wolf);
       webSocketService.emit("sheeps", sheeps);
-      let consumableSheep = this.wolfController.getSheepIfWolfCanConsumeIt(sheeps);
+      consumableSheep = this.wolfController.getSheepIfWolfCanConsumeIt(sheeps);
       if (consumableSheep) {
         this.sheepController.removeSheep(consumableSheep);
         this.wolfController.updateWolfSize(1);
