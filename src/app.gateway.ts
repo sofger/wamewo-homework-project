@@ -13,13 +13,15 @@ import { SheepController } from "./colony/sheep/sheep.controller";
 import { WolfController } from "./colony/wolf/wolf.controller";
 import { WolfService } from "./colony/wolf/wolf.service";
 import { Coordinates } from "./coordinates/coordinates.model";
+import { WolfModel } from "./colony/wolf/wolf.model";
+import { SheepModel } from "./colony/sheep/sheep.model";
 
 @WebSocketGateway()
 export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGatewayConnection {
 
   private _logger: Logger = new Logger("AppGateway");
-  private sheepService = new SheepService();
-  private wolfService = new WolfService();
+  private sheepService: SheepService = new SheepService();
+  private wolfService: WolfService = new WolfService();
   private sheepController: SheepController = new SheepController(this.sheepService);
   private wolfController: WolfController = new WolfController(this.wolfService);
 
@@ -43,14 +45,14 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
 
   @WebSocketServer() private _wss: Server;
 
-  afterInit(server: Server) {
+  afterInit(server: Server): void {
     this.logger.log("Init!");
     this.wss.emit("msgToClient", "Init!");
     this.FIELD_SIZE = 600;
     this.generateAnimals(10);
   }
 
-  async handleConnection(client: Socket, ...args: any[]) {
+  async handleConnection(client: Socket, ...args: any[]): Promise<void> {
     this.logger.log(`Connected! ${client.id}`);
     await this.startSimulation();
   }
@@ -60,8 +62,9 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
    * @param sheepCount
    */
   public generateAnimals(sheepCount: number): void {
+    let randomCoordinates: Coordinates;
     for (let id = 0; id < sheepCount; id++) {
-      let randomCoordinates: Coordinates = Utils.getRandomCoordinates(this.FIELD_SIZE);
+      randomCoordinates = Utils.getRandomCoordinates(this.FIELD_SIZE);
       this.sheepController.addSheep(id, randomCoordinates);
     }
     let centerCoordinate: Coordinates = new Coordinates(Math.floor(this.FIELD_SIZE / 2), Math.floor(this.FIELD_SIZE / 2));
@@ -72,7 +75,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
    * logs disconnect
    * @param client
    */
-  handleDisconnect(client: Socket) {
+  handleDisconnect(client: Socket): void {
     this.logger.log(`Disconnected! ${client.id}`);
   }
 
@@ -80,12 +83,12 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
    * starts simulation
    * @private
    */
-  private async startSimulation() {
-    let webSocketService = this.wss;
-    let sheeps = this.sheepController.getAllSheeps();
-    let wolfSpeed = 11;
-    let wolf;
-    let consumableSheep;
+  private async startSimulation(): Promise<void> {
+    let webSocketService: Server = this.wss;
+    let sheeps: SheepModel[] = this.sheepController.getAllSheeps();
+    let wolfSpeed: number = 11;
+    let wolf: WolfModel;
+    let consumableSheep: SheepModel;
     do {
       wolf = this.wolfController.getWolf();
       sheeps = this.sheepController.getAllSheeps();

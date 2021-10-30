@@ -2,6 +2,7 @@ import { Controller } from "@nestjs/common";
 import { WolfService } from "./wolf.service";
 import { Coordinates } from "../../coordinates/coordinates.model";
 import { SheepModel } from "../sheep/sheep.model";
+import { WolfModel } from "./wolf.model";
 
 @Controller()
 export class WolfController {
@@ -15,14 +16,14 @@ export class WolfController {
   /**
    * adds new wolf
    */
-  addWolf(id: number, position: Coordinates, size: number) {
+  addWolf(id: number, position: Coordinates, size: number): void {
     this.wolfService.addWolf(id, position, size);
   }
 
   /**
    * returns wolf
    */
-  getWolf() {
+  getWolf(): WolfModel {
     return this.wolfService.getWolf();
   }
 
@@ -48,7 +49,7 @@ export class WolfController {
    * updates wolf size by param
    * @param wolfSizeIncremental
    */
-  updateWolfSize(wolfSizeIncremental) {
+  updateWolfSize(wolfSizeIncremental): void {
     this.wolfService.updateWolfSize(wolfSizeIncremental);
   }
 }
