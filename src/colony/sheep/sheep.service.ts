@@ -51,32 +51,41 @@ export class SheepService {
    */
   getNextDirection(sheepId: number, wolfPosition: Coordinates): Direction {
     let sheep = this.findSheep(sheepId);
+    let wolfIsDownRight = sheep.getPosition.x < wolfPosition.x && sheep.getPosition.y < wolfPosition.y;
+    let wolfIsDownLeft = sheep.getPosition.x > wolfPosition.x && sheep.getPosition.y < wolfPosition.y;
+    let wolfIsUpRight = sheep.getPosition.x < wolfPosition.x && sheep.getPosition.y > wolfPosition.y;
+    let wolfIsUpLeft = sheep.getPosition.x > wolfPosition.x && sheep.getPosition.y > wolfPosition.y;
+    let wolfIsStraightDown = sheep.getPosition.x === wolfPosition.x && sheep.getPosition.y < wolfPosition.y;
+    let wolfIsStraightUp = sheep.getPosition.x === wolfPosition.x && sheep.getPosition.y > wolfPosition.y;
+    let wolfIsStraightLeft = sheep.getPosition.x > wolfPosition.x && sheep.getPosition.y === wolfPosition.y;
+    let wolfIsStraightRight = sheep.getPosition.x < wolfPosition.x && sheep.getPosition.y === wolfPosition.y;
+
     // <-----------------up------------------>
-    if (sheep.getPosition.y < wolfPosition.y && sheep.getPosition.x < wolfPosition.x) {
+    if (wolfIsDownRight) {
       return Direction.UP_LEFT;
     }
-    if (sheep.getPosition.y < wolfPosition.y && sheep.getPosition.x > wolfPosition.x) {
+    if (wolfIsDownLeft) {
       return Direction.UP_RIGHT;
     }
-    if (sheep.getPosition.y < wolfPosition.y && sheep.getPosition.x === wolfPosition.x) {
+    if (wolfIsStraightDown) {
       return Direction.UP;
     }
     // <-----------------down------------------>
-    if (sheep.getPosition.y > wolfPosition.y && sheep.getPosition.x < wolfPosition.x) {
+    if (wolfIsUpRight) {
       return Direction.DOWN_LEFT;
     }
-    if (sheep.getPosition.y > wolfPosition.y && sheep.getPosition.x > wolfPosition.x) {
+    if (wolfIsUpLeft) {
       return Direction.DOWN_RIGHT;
     }
-    if (sheep.getPosition.y > wolfPosition.y && sheep.getPosition.x === wolfPosition.x) {
+    if (wolfIsStraightUp) {
       return Direction.DOWN;
     }
     // <-----------------Right------------------>
-    if (sheep.getPosition.x > wolfPosition.x) {
+    if (wolfIsStraightLeft) {
       return Direction.RIGHT;
     }
     // <-----------------Left------------------>
-    if (sheep.getPosition.x < wolfPosition.x) {
+    if (wolfIsStraightRight) {
       return Direction.LEFT;
     }
   }

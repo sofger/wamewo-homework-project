@@ -30,30 +30,45 @@ export class WolfService {
   getNextDirection(sheeps: SheepModel[]): Direction {
     let closestSheep: SheepModel = this.getClosestSheep(sheeps);
     let closestSheepCoordinates: Coordinates = closestSheep.getPosition;
+    let wolfPosition = this.getWolf().getPosition;
+    console.log(closestSheepCoordinates.x, closestSheepCoordinates.y, wolfPosition.x, wolfPosition.y);
+
+    let wolfIsDownRight = closestSheepCoordinates.x < wolfPosition.x && closestSheepCoordinates.y < wolfPosition.y;
+    let wolfIsDownLeft = closestSheepCoordinates.x > wolfPosition.x && closestSheepCoordinates.y < wolfPosition.y;
+    let wolfIsUpRight = closestSheepCoordinates.x < wolfPosition.x && closestSheepCoordinates.y > wolfPosition.y;
+    let wolfIsUpLeft = closestSheepCoordinates.x > wolfPosition.x && closestSheepCoordinates.y > wolfPosition.y;
+    let wolfIsStraightDown = closestSheepCoordinates.x === wolfPosition.x && closestSheepCoordinates.y < wolfPosition.y;
+    let wolfIsStraightUp = closestSheepCoordinates.x === wolfPosition.x && closestSheepCoordinates.y > wolfPosition.y;
+    let wolfIsStraightLeft = closestSheepCoordinates.x > wolfPosition.x && closestSheepCoordinates.y === wolfPosition.y;
+    let wolfIsStraightRight = closestSheepCoordinates.x < wolfPosition.x && closestSheepCoordinates.y === wolfPosition.y;
 
     // <-----------------up------------------>
-    if (this.wolf.getPosition.y < closestSheepCoordinates.y) {
-      if (this.wolf.getPosition.x < closestSheepCoordinates.x) {
-        return Direction.DOWN_RIGHT;
-      } else if (this.wolf.getPosition.x > closestSheepCoordinates.x) {
-        return Direction.DOWN_LEFT;
-      }
-      return Direction.DOWN;
+    if (wolfIsDownRight) {
+      return Direction.UP_LEFT;
     }
-    // <-----------------down------------------>
-    if (this.wolf.getPosition.y > closestSheepCoordinates.y) {
-      if (this.wolf.getPosition.x < closestSheepCoordinates.x) {
-        return Direction.UP_RIGHT;
-      } else if (this.wolf.getPosition.x > closestSheepCoordinates.x) {
-        return Direction.UP_LEFT;
-      }
+    if (wolfIsDownLeft) {
+      return Direction.UP_RIGHT;
+    }
+    if (wolfIsStraightDown) {
       return Direction.UP;
     }
+    // <-----------------down------------------>
+    if (wolfIsUpRight) {
+      return Direction.DOWN_LEFT;
+    }
+    if (wolfIsUpLeft) {
+      return Direction.DOWN_RIGHT;
+    }
+    if (wolfIsStraightUp) {
+      return Direction.DOWN;
+    }
     // <-----------------Right------------------>
-    if (this.wolf.getPosition.x > closestSheepCoordinates.x) {
-      return Direction.LEFT;
-    } else {// <-----------------Left------------------>
+    if (wolfIsStraightLeft) {
       return Direction.RIGHT;
+    }
+    // <-----------------Left------------------>
+    if (wolfIsStraightRight) {
+      return Direction.LEFT;
     }
   }
 
