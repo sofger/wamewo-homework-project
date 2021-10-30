@@ -2,7 +2,6 @@ import { Controller, Param } from "@nestjs/common";
 import { SheepService } from "./sheep.service";
 import { SheepModel } from "./sheep.model";
 import { Coordinates } from "../../coordinates/coordinates.model";
-import { Direction } from "../../coordinates/direction.enum";
 
 
 @Controller()
@@ -44,16 +43,6 @@ export class SheepController {
   findOneSheep(@Param("id") sheepId: number) {
     return this.sheepService.findSheep(sheepId);
   }
-
-  /**
-   * returns enum Direction according to wolf position
-   * @param sheepId
-   * @param wolfPosition
-   */
-  getNextDirection(sheepId: number, wolfPosition: Coordinates): Direction {
-    return this.sheepService.getNextDirection(sheepId, wolfPosition);
-  }
-
 
   /**
    * Updates sheep x and y coordinates bay sheepspeed in the direction according to wolf position
