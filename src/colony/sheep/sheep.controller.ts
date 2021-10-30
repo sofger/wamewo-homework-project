@@ -17,7 +17,7 @@ export class SheepController {
    * @param sheepId the sheep unique id
    * @param coordinate  the sheep coordinate
    */
-  addSheep(sheepId: number, coordinate: Coordinates) {
+  addSheep(sheepId: number, coordinate: Coordinates): void {
     this.sheepService.addSheep(sheepId, coordinate);
   }
 
@@ -25,7 +25,7 @@ export class SheepController {
    * removes sheep by param
    * @param sheep
    */
-  removeSheep(sheep) {
+  removeSheep(sheep): void {
     this.sheepService.removeSheep(sheep);
   }
 
@@ -40,7 +40,7 @@ export class SheepController {
    * finds sheep by id
    * @param sheepId
    */
-  findOneSheep(@Param("id") sheepId: number) {
+  findOneSheep(@Param("id") sheepId: number): any {
     return this.sheepService.findSheep(sheepId);
   }
 

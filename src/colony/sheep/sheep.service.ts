@@ -12,7 +12,7 @@ export class SheepService {
    * @param sheepId the sheep unique id
    * @param coordinate  the sheep coordinate
    */
-  addSheep(sheepId: number, coordinate: Coordinates) {
+  addSheep(sheepId: number, coordinate: Coordinates): void {
     const newSheep = new SheepModel(sheepId, coordinate);
     this.sheeps.push(newSheep);
   }
@@ -20,7 +20,7 @@ export class SheepService {
   /**
    * returns all sheeps
    */
-  getAllSheeps() {
+  getAllSheeps(): SheepModel[] {
     return [...this.sheeps];
   }
 
@@ -28,7 +28,7 @@ export class SheepService {
    * removes sheep
    * @param sheep
    */
-  removeSheep(sheep) {
+  removeSheep(sheep): void {
     this.sheeps.splice(this.sheeps.indexOf(sheep), 1);
   }
 
@@ -36,7 +36,7 @@ export class SheepService {
    * finds sheep by id
    * @param sheepId
    */
-  findSheep(sheepId: number) {
+  findSheep(sheepId: number): any {
     const sheep = this.sheeps.find(sheep => sheep.id === sheepId);
     if (!sheep) {
       throw new NotFoundException("Sheep not found");

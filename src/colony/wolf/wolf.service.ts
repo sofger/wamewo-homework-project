@@ -11,7 +11,7 @@ export class WolfService {
   /**
    * adds new wolf
    */
-  addWolf(id: number, position: Coordinates, size: number) {
+  addWolf(id: number, position: Coordinates, size: number): void {
     this.wolf = new WolfModel(id, position, size);
   }
 
@@ -52,7 +52,7 @@ export class WolfService {
    * updates wolf size by param
    * @param wolfSizeIncremental
    */
-  updateWolfSize(wolfSizeIncremental) {
+  updateWolfSize(wolfSizeIncremental): void {
     this.getWolf().size += wolfSizeIncremental;
   }
 
