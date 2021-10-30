@@ -45,43 +45,6 @@ export class SheepService {
   }
 
   /**
-   * returns enum Direction according to wolf position
-   * @param sheepId
-   * @param wolfPosition
-   */
-  getNextDirection(sheepId: number, wolfPosition: Coordinates): Direction {
-    let sheep = this.findSheep(sheepId);
-    // <-----------------up------------------>
-    if (sheep.getPosition.y < wolfPosition.y && sheep.getPosition.x < wolfPosition.x) {
-      return Direction.UP_LEFT;
-    }
-    if (sheep.getPosition.y < wolfPosition.y && sheep.getPosition.x > wolfPosition.x) {
-      return Direction.UP_RIGHT;
-    }
-    if (sheep.getPosition.y < wolfPosition.y && sheep.getPosition.x === wolfPosition.x) {
-      return Direction.UP;
-    }
-    // <-----------------down------------------>
-    if (sheep.getPosition.y > wolfPosition.y && sheep.getPosition.x < wolfPosition.x) {
-      return Direction.DOWN_LEFT;
-    }
-    if (sheep.getPosition.y > wolfPosition.y && sheep.getPosition.x > wolfPosition.x) {
-      return Direction.DOWN_RIGHT;
-    }
-    if (sheep.getPosition.y > wolfPosition.y && sheep.getPosition.x === wolfPosition.x) {
-      return Direction.DOWN;
-    }
-    // <-----------------Right------------------>
-    if (sheep.getPosition.x > wolfPosition.x) {
-      return Direction.RIGHT;
-    }
-    // <-----------------Left------------------>
-    if (sheep.getPosition.x < wolfPosition.x) {
-      return Direction.LEFT;
-    }
-  }
-
-  /**
    * Updates sheep x and y coordinates bay sheepspeed in the direction according to wolf position
    * @param sheepSpeed
    * @param wolfPosition
@@ -90,7 +53,7 @@ export class SheepService {
   updateSheepPositions(sheepSpeed: number, wolfPosition: Coordinates, FIELD_WIDTH: number): void {
     let sheeps = this.getAllSheeps();
     for (let sheep of sheeps) {
-      let direction: Direction = this.getNextDirection(sheep.id, wolfPosition);
+      let direction: Direction = sheep.getNextDirection(sheep.getPosition, wolfPosition);
       sheep.move(sheepSpeed, FIELD_WIDTH, direction);
     }
   }

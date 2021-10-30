@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { WolfModel } from "./wolf.model";
 import { SheepModel } from "../sheep/sheep.model";
-import { Direction } from "../../coordinates/direction.enum";
 import { Coordinates } from "../../coordinates/coordinates.model";
 import { Utils } from "../../util/utils";
 
@@ -24,40 +23,6 @@ export class WolfService {
   }
 
   /**
-   * returns enum Direction according to closest sheep position
-   * @param sheeps
-   */
-  getNextDirection(sheeps: SheepModel[]): Direction {
-    let closestSheep: SheepModel = this.getClosestSheep(sheeps);
-    let closestSheepCoordinates: Coordinates = closestSheep.getPosition;
-
-    // <-----------------up------------------>
-    if (this.wolf.getPosition.y < closestSheepCoordinates.y) {
-      if (this.wolf.getPosition.x < closestSheepCoordinates.x) {
-        return Direction.DOWN_RIGHT;
-      } else if (this.wolf.getPosition.x > closestSheepCoordinates.x) {
-        return Direction.DOWN_LEFT;
-      }
-      return Direction.DOWN;
-    }
-    // <-----------------down------------------>
-    if (this.wolf.getPosition.y > closestSheepCoordinates.y) {
-      if (this.wolf.getPosition.x < closestSheepCoordinates.x) {
-        return Direction.UP_RIGHT;
-      } else if (this.wolf.getPosition.x > closestSheepCoordinates.x) {
-        return Direction.UP_LEFT;
-      }
-      return Direction.UP;
-    }
-    // <-----------------Right------------------>
-    if (this.wolf.getPosition.x > closestSheepCoordinates.x) {
-      return Direction.LEFT;
-    } else {// <-----------------Left------------------>
-      return Direction.RIGHT;
-    }
-  }
-
-  /**
    * returns sheep if it can be removed, if no match returns null
    * @param sheeps
    */
@@ -77,7 +42,8 @@ export class WolfService {
    * @param FIELD_WIDTH
    */
   updateWolfPosition(wolfSpeed, sheeps: SheepModel[], FIELD_WIDTH): void {
-    let nextDirection = this.getNextDirection(sheeps);
+    let closestSheep = this.getClosestSheep(sheeps);
+    let nextDirection = this.getWolf().getNextDirection(closestSheep.getPosition, this.getWolf().getPosition);
     this.getWolf().move(wolfSpeed, FIELD_WIDTH, nextDirection);
 
   }

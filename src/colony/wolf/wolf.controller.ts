@@ -2,7 +2,6 @@ import { Controller } from "@nestjs/common";
 import { WolfService } from "./wolf.service";
 import { Coordinates } from "../../coordinates/coordinates.model";
 import { SheepModel } from "../sheep/sheep.model";
-import { Direction } from "../../coordinates/direction.enum";
 
 @Controller()
 export class WolfController {
@@ -26,15 +25,6 @@ export class WolfController {
   getWolf() {
     return this.wolfService.getWolf();
   }
-
-  /**
-   * returns enum Direction according to closest sheep position
-   * @param sheeps
-   */
-  getNextDirection(sheeps: SheepModel[]): Direction {
-    return this.wolfService.getNextDirection(sheeps);
-  }
-
 
   /**
    * returns sheep if it can be removed, if no match returns null
