@@ -6,7 +6,7 @@ export class Utils {
    * Generates random integer between 0 and @param max
    * @param max
    */
-  public static getRandomInt(max) {
+  public static getRandomInt(max): number {
     return Math.floor(Math.random() * max);
   }
 
@@ -15,7 +15,7 @@ export class Utils {
    * @param ms
    * add await before it in a async function
    */
-  public static delay(ms: number) {
+  public static delay(ms: number): Promise<void> {
     return new Promise(res => setTimeout(res, ms));
   }
 
@@ -32,7 +32,7 @@ export class Utils {
    * generates random coordinate
    * @param FIELD_WIDTH
    */
-  public static getRandomCoordinates(FIELD_WIDTH: number) {
+  public static getRandomCoordinates(FIELD_WIDTH: number): Coordinates {
     return new Coordinates(Utils.getRandomInt(FIELD_WIDTH), Utils.getRandomInt(FIELD_WIDTH));
   }
 
