@@ -53,7 +53,7 @@ describe("WolfServiceTest", () => {
     let sheepMock1: SheepModel = new SheepModel(1, new Coordinates(11, 11));
     let sheepMock2: SheepModel = new SheepModel(2, new Coordinates(25, 25));
     let sheepMock3: SheepModel = new SheepModel(3, new Coordinates(50, 50));
-    let sheepMocks = [sheepMock1, sheepMock2, sheepMock3];
+    let sheepMocks = [sheepMock3, sheepMock2, sheepMock1];
 
     it("should return closest sheep", () => {
       wolfService.addWolf(wolfMock);
@@ -70,11 +70,11 @@ describe("WolfServiceTest", () => {
 
 
   describe("update wolf position", () => {
-
     let sheepMock1: SheepModel = new SheepModel(1, new Coordinates(5, 10));
     let sheepMock2: SheepModel = new SheepModel(2, new Coordinates(25, 25));
     let sheepMock3: SheepModel = new SheepModel(3, new Coordinates(50, 50));
-    let sheepMocks = [sheepMock1, sheepMock2, sheepMock3];
+
+    let sheepMocks = [sheepMock3, sheepMock2, sheepMock1];
     let wolfMock: WolfModel = new WolfModel(2, new Coordinates(10, 10), 10);
 
     it("should update wolf position for closest sheep", () => {
@@ -99,4 +99,30 @@ describe("WolfServiceTest", () => {
     });
 
   });
+
+  describe("Sheep Consume test", () => {
+
+    let sheepMock1: SheepModel = new SheepModel(1, new Coordinates(10, 10));
+    let sheepMock2: SheepModel = new SheepModel(2, new Coordinates(25, 25));
+    let sheepMock3: SheepModel = new SheepModel(3, new Coordinates(50, 50));
+
+    let sheepMocks = [sheepMock3, sheepMock2, sheepMock1];
+    let wolfMock: WolfModel = new WolfModel(2, new Coordinates(10, 10), 10);
+
+    it("should return sheep if wolf position is equal to closest sheep", () => {
+      wolfService.addWolf(wolfMock);
+      let result: any = wolfService.getSheepIfWolfCanConsumeIt(sheepMocks);
+      expect(result).toStrictEqual(sheepMock1);
+    });
+
+    it("should return null if wolf position is not equal to closest sheep", () => {
+      wolfService.addWolf(wolfMock);
+      sheepMocks.splice(2, 1);
+      let result: any = wolfService.getSheepIfWolfCanConsumeIt(sheepMocks);
+      expect(result).toBe(null);
+    });
+
+  });
+
+
 });
