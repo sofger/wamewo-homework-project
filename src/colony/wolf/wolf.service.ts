@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { WolfModel } from "./wolf.model";
 import { SheepModel } from "../sheep/sheep.model";
-import { Coordinates } from "../../coordinates/coordinates.model";
 import { Utils } from "../../util/utils";
 
 @Injectable()
@@ -11,8 +10,8 @@ export class WolfService {
   /**
    * adds new wolf
    */
-  addWolf(id: number, position: Coordinates, size: number): void {
-    this.wolf = new WolfModel(id, position, size);
+  addWolf(wolf: WolfModel): void {
+    this.wolf = wolf;
   }
 
   /**

@@ -14,11 +14,10 @@ export class SheepController {
 
   /**
    * add new sheep to collection
-   * @param sheepId the sheep unique id
-   * @param coordinate  the sheep coordinate
+   * @param sheep the sheep unique id
    */
-  addSheep(sheepId: number, coordinate: Coordinates): void {
-    this.sheepService.addSheep(sheepId, coordinate);
+  addSheep(sheep: SheepModel): void {
+    this.sheepService.addSheep(sheep);
   }
 
   /**
