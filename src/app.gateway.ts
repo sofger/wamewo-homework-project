@@ -63,12 +63,15 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
    */
   public generateAnimals(sheepCount: number): void {
     let randomCoordinates: Coordinates;
+    let sheep: SheepModel;
     for (let id = 0; id < sheepCount; id++) {
       randomCoordinates = Utils.getRandomCoordinates(this.FIELD_SIZE);
-      this.sheepController.addSheep(id, randomCoordinates);
+      sheep = new SheepModel(id, randomCoordinates);
+      this.sheepController.addSheep(sheep);
     }
     let centerCoordinate: Coordinates = new Coordinates(Math.floor(this.FIELD_SIZE / 2), Math.floor(this.FIELD_SIZE / 2));
-    this.wolfController.addWolf(Math.floor(Math.random() * 300), centerCoordinate, 10);
+    let wolf = new WolfModel(Math.floor(Math.random() * 300), centerCoordinate, 10);
+    this.wolfController.addWolf(wolf);
   }
 
   /**

@@ -1,6 +1,5 @@
 import { Controller } from "@nestjs/common";
 import { WolfService } from "./wolf.service";
-import { Coordinates } from "../../coordinates/coordinates.model";
 import { SheepModel } from "../sheep/sheep.model";
 import { WolfModel } from "./wolf.model";
 
@@ -14,10 +13,11 @@ export class WolfController {
   }
 
   /**
-   * adds new wolf
+   * Adds a new wolf
+   * @param wolf
    */
-  addWolf(id: number, position: Coordinates, size: number): void {
-    this.wolfService.addWolf(id, position, size);
+  addWolf(wolf: WolfModel): void {
+    this.wolfService.addWolf(wolf);
   }
 
   /**

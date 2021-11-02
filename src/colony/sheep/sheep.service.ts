@@ -9,11 +9,9 @@ export class SheepService {
 
   /**
    * add new sheep to collection
-   * @param sheepId the sheep unique id
-   * @param coordinate  the sheep coordinate
+   * @param newSheep the sheep
    */
-  addSheep(sheepId: number, coordinate: Coordinates): void {
-    const newSheep = new SheepModel(sheepId, coordinate);
+  addSheep(newSheep: SheepModel): void {
     this.sheeps.push(newSheep);
   }
 
