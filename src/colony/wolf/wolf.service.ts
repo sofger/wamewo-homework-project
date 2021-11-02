@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { WolfModel } from "./wolf.model";
 import { SheepModel } from "../sheep/sheep.model";
 import { Utils } from "../../util/utils";
@@ -18,7 +18,11 @@ export class WolfService {
    * returns wolf
    */
   getWolf() {
-    return this.wolf;
+    if (this.wolf) {
+      return this.wolf;
+    } else {
+      throw new NotFoundException("No wolf defined");
+    }
   }
 
   /**
@@ -52,7 +56,9 @@ export class WolfService {
    * @param wolfSizeIncremental
    */
   updateWolfSize(wolfSizeIncremental): void {
-    this.getWolf().size += wolfSizeIncremental;
+    if (wolfSizeIncremental > 0) {
+      this.getWolf().size += wolfSizeIncremental;
+    } else throw new RangeError("Incremental must be a positive integer");
   }
 
   /**
@@ -60,17 +66,23 @@ export class WolfService {
    * @param sheeps
    * @private
    */
-  private getClosestSheep(sheeps: SheepModel[]): SheepModel {
-    let minDistanceSheep = sheeps[0];
-    let minDistance = Utils.calcDistanceBetweenCoordinates(sheeps[0].getPosition, this.wolf.getPosition);
-    for (let sheep of sheeps) {
-      let sheepDistance = Utils.calcDistanceBetweenCoordinates(sheep.getPosition, this.wolf.getPosition);
-      if (sheepDistance < minDistance) {
-        minDistance = sheepDistance;
-        minDistanceSheep = sheep;
+  public getClosestSheep(sheeps: SheepModel[]): SheepModel {
+    if (sheeps.length > 0) {
+      let minDistanceSheep = sheeps[0];
+      let minDistance = Utils.calcDistanceBetweenCoordinates(sheeps[0].getPosition, this.wolf.getPosition);
+      for (let sheep of sheeps) {
+        let sheepDistance = Utils.calcDistanceBetweenCoordinates(sheep.getPosition, this.wolf.getPosition);
+        if (sheepDistance < minDistance) {
+          minDistance = sheepDistance;
+          minDistanceSheep = sheep;
+        }
       }
+      return minDistanceSheep;
+    } else {
+      throw new NotFoundException("No sheeps are available");
     }
-    return minDistanceSheep;
+
+
   }
 
 }
