@@ -1,7 +1,7 @@
 ## <div style="color:#f59800" align="center">---|Welcome to my WaMeWo homework Project 👋|---</div>
 <div align="center">
   
-A typescript application to met the requirements of a job application.
+A typescript application to met the task requirements.
 
 [![Version](https://img.shields.io/badge/version-v0.6-blue.svg)](https://img.shields.io/badge/version-v1.0-blue.svg?cacheSeconds=2592000)
 </div>
@@ -25,31 +25,29 @@ A typescript application to met the requirements of a job application.
 > To make a project that shows of my skills and passion for front-end development.
 
 
-> To Learn new things and industry standards.
+> To Learn new things, new technologies and industry standards.
 
 
 > To get better in time management.
 
 
-## <div style="color:#f59800" align="center">---|Lessons Learned|---</div>
+## <div style="color:#f59800" align="center">---|Lessons Learned and still learning|---</div>
 
 - Basic clean code
-- NestJs usage --Still learning 
-- Typescript usage --Still learning 
-- NodeJs usage --Still learning 
+- NestJs usage 
+- Typescript usage 
+- NodeJs usage 
 - Best practices
 
 
 
 ## <div style="color:#f59800" align="center">---|Roadmap|---</div>
 
-- Docker --Still learning 
-- Frontend --Coming soon 
-- Add tests --Coming soon 
+- Docker implementation in progress
 
 
 
-## 💺Requirements
+## 💺Task Requirements
 
 - Big Dot represents wolf
 - Small rectangles represents sheeps
@@ -57,25 +55,15 @@ A typescript application to met the requirements of a job application.
 - Sheeps tries to escape from wolf
 - Wolf eats sheep when he catches
 - Wolf gets bigger when he eats
-- Wolf slows down when gets bigger--In progress
+- Wolf slows down when gets bigger
 
 
 ***
+Tech requirements
 
 - Use Nestj on backend  
 - Stream simulation in websocket  
 - Optional Use frontend framework--In progress   
-
-
-
-## Screenshots
-<div align="center">
-
-  
-Coming soon
-  
-  
-</div>
 
 
 
