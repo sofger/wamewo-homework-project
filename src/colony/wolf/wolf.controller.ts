@@ -11,6 +11,10 @@ export class WolfController {
     this.wolfService = wolfService;
   }
 
+  clearField(){
+    this.wolfService.clear();
+  }
+
   /**
    * Adds a new wolf
    * @param wolf

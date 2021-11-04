@@ -6,6 +6,10 @@ import { Coordinates } from '../../coordinates/coordinates.model';
 export class SheepService {
   private sheeps: SheepModel[] = [];
 
+  clear() {
+    this.sheeps = [];
+  }
+
   /**
    * add new sheep to collection
    * @param newSheep the sheep

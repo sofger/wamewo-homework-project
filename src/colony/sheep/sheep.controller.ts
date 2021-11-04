@@ -11,6 +11,10 @@ export class SheepController {
     this.sheepService = sheepService;
   }
 
+  clearField(){
+    this.sheepService.clear();
+  }
+
   /**
    * add new sheep to collection
    * @param sheep the sheep unique id

@@ -15,6 +15,7 @@ import { WolfService } from './colony/wolf/wolf.service';
 import { Coordinates } from './coordinates/coordinates.model';
 import { WolfModel } from './colony/wolf/wolf.model';
 import { SheepModel } from './colony/sheep/sheep.model';
+import { DefaultEventsMap } from 'node_modules/socket.io/dist/typed-events';
 
 @WebSocketGateway()
 export class AppGateway
@@ -48,16 +49,16 @@ export class AppGateway
 
   @WebSocketServer() private _wss: Server;
 
-  afterInit(server: Server): void {
+  afterInit(server: Server): void { 
     this.logger.log('Init!');
-    this.wss.emit('msgToClient', 'Init!');
+    //this.wss.emit('msgToClient', 'Init!'); // Itt még nincs ws kapcsolat!
     this.FIELD_SIZE = 600;
-    this.generateAnimals(10);
   }
 
   async handleConnection(client: Socket, ...args: any[]): Promise<void> {
     this.logger.log(`Connected! ${client.id}`);
-    await this.startSimulation();
+    this.wss.emit('msgToClient', 'Init!');
+    await this.startSimulation(client);
   }
 
   /**
@@ -96,8 +97,11 @@ export class AppGateway
    * starts simulation
    * @private
    */
-  private async startSimulation(): Promise<void> {
+  private async startSimulation(client: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>): Promise<void> {
     let webSocketService: Server = this.wss;
+    this.sheepController.clearField();
+    this.wolfController.clearField();
+    this.generateAnimals(10);
     let sheeps: SheepModel[] = this.sheepController.getAllSheeps();
     let wolfSpeed: number = 11;
     let wolf: WolfModel;
@@ -125,7 +129,7 @@ export class AppGateway
         this.wolfController.updateWolfSize(1);
         wolfSpeed--;
       }
-    } while (sheeps.length > 0);
+    } while (sheeps.length > 0 && client.connected);
     this.logger.log('Simulation Ended!');
     webSocketService.emit('end');
   }

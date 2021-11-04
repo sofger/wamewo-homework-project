@@ -7,6 +7,10 @@ import { Utils } from '../../util/utils';
 export class WolfService {
   private wolf: WolfModel;
 
+  clear(){
+    this.wolf = null;
+  }
+
   /**
    * adds new wolf
    */
