@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { WolfModel } from "./wolf.model";
-import { SheepModel } from "../sheep/sheep.model";
-import { Utils } from "../../util/utils";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { WolfModel } from './wolf.model';
+import { SheepModel } from '../sheep/sheep.model';
+import { Utils } from '../../util/utils';
 
 @Injectable()
 export class WolfService {
@@ -21,7 +21,7 @@ export class WolfService {
     if (this.wolf) {
       return this.wolf;
     } else {
-      throw new NotFoundException("No wolf defined");
+      throw new NotFoundException('No wolf defined');
     }
   }
 
@@ -31,7 +31,12 @@ export class WolfService {
    */
   getSheepIfWolfCanConsumeIt(sheeps: SheepModel[]): any {
     let closestSheep = this.getClosestSheep(sheeps);
-    if (Utils.calcDistanceBetweenCoordinates(closestSheep.getPosition, this.wolf.getPosition) < this.wolf.size) {
+    if (
+      Utils.calcDistanceBetweenCoordinates(
+        closestSheep.getPosition,
+        this.wolf.getPosition,
+      ) < this.wolf.size
+    ) {
       closestSheep.dead = true;
       return closestSheep;
     }
@@ -46,9 +51,11 @@ export class WolfService {
    */
   updateWolfPosition(wolfSpeed, sheeps: SheepModel[], FIELD_WIDTH): void {
     let closestSheep = this.getClosestSheep(sheeps);
-    let nextDirection = this.getWolf().getNextDirection(closestSheep.getPosition, this.getWolf().getPosition);
+    let nextDirection = this.getWolf().getNextDirection(
+      closestSheep.getPosition,
+      this.getWolf().getPosition,
+    );
     this.getWolf().move(wolfSpeed, FIELD_WIDTH, nextDirection);
-
   }
 
   /**
@@ -58,7 +65,7 @@ export class WolfService {
   updateWolfSize(wolfSizeIncremental): void {
     if (wolfSizeIncremental > 0) {
       this.getWolf().size += wolfSizeIncremental;
-    } else throw new RangeError("Incremental must be a positive integer");
+    } else throw new RangeError('Incremental must be a positive integer');
   }
 
   /**
@@ -69,9 +76,15 @@ export class WolfService {
   public getClosestSheep(sheeps: SheepModel[]): SheepModel {
     if (sheeps.length > 0) {
       let minDistanceSheep = sheeps[0];
-      let minDistance = Utils.calcDistanceBetweenCoordinates(sheeps[0].getPosition, this.wolf.getPosition);
+      let minDistance = Utils.calcDistanceBetweenCoordinates(
+        sheeps[0].getPosition,
+        this.wolf.getPosition,
+      );
       for (let sheep of sheeps) {
-        let sheepDistance = Utils.calcDistanceBetweenCoordinates(sheep.getPosition, this.wolf.getPosition);
+        let sheepDistance = Utils.calcDistanceBetweenCoordinates(
+          sheep.getPosition,
+          this.wolf.getPosition,
+        );
         if (sheepDistance < minDistance) {
           minDistance = sheepDistance;
           minDistanceSheep = sheep;
@@ -79,10 +92,7 @@ export class WolfService {
       }
       return minDistanceSheep;
     } else {
-      throw new NotFoundException("No sheeps are available");
+      throw new NotFoundException('No sheeps are available');
     }
-
-
   }
-
 }

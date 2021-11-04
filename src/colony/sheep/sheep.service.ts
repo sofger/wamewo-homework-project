@@ -1,7 +1,6 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { SheepModel } from "./sheep.model";
-import { Coordinates } from "../../coordinates/coordinates.model";
-import { Direction } from "../../coordinates/direction.enum";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { SheepModel } from './sheep.model';
+import { Coordinates } from '../../coordinates/coordinates.model';
 
 @Injectable()
 export class SheepService {
@@ -35,9 +34,9 @@ export class SheepService {
    * @param sheepId
    */
   findSheep(sheepId: number): any {
-    const sheep = this.sheeps.find(sheep => sheep.id === sheepId);
+    const sheep = this.sheeps.find((sheep) => sheep.id === sheepId);
     if (!sheep) {
-      throw new NotFoundException("Sheep not found");
+      throw new NotFoundException('Sheep not found');
     }
     return sheep;
   }
@@ -48,13 +47,15 @@ export class SheepService {
    * @param wolfPosition
    * @param FIELD_WIDTH
    */
-  updateSheepPositions(sheepSpeed: number, wolfPosition: Coordinates, FIELD_WIDTH: number): void {
+  updateSheepPositions(
+    sheepSpeed: number,
+    wolfPosition: Coordinates,
+    FIELD_WIDTH: number,
+  ): void {
     let sheeps = this.getAllSheeps();
     for (let sheep of sheeps) {
-      let direction: Direction = sheep.getNextDirection(sheep.getPosition, wolfPosition);
+      let direction = sheep.getNextDirection(sheep.getPosition, wolfPosition);
       sheep.move(sheepSpeed, FIELD_WIDTH, direction);
     }
   }
-
-
 }
