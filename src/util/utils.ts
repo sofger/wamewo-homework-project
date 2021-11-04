@@ -1,5 +1,4 @@
-import { Coordinates } from "../coordinates/coordinates.model";
-
+import { Coordinates } from '../coordinates/coordinates.model';
 
 export class Utils {
   /**
@@ -16,7 +15,7 @@ export class Utils {
    * add await before it in a async function
    */
   public static delay(ms: number): Promise<void> {
-    return new Promise(res => setTimeout(res, ms));
+    return new Promise((res) => setTimeout(res, ms));
   }
 
   /**
@@ -24,8 +23,14 @@ export class Utils {
    * @param Coordinates1
    * @param Coordinates2
    */
-  public static calcDistanceBetweenCoordinates(Coordinates1: Coordinates, Coordinates2: Coordinates): number {
-    return Math.sqrt(Math.pow(Coordinates1.x - Coordinates2.x, 2) + Math.pow(Coordinates1.y - Coordinates2.y, 2));
+  public static calcDistanceBetweenCoordinates(
+    Coordinates1: Coordinates,
+    Coordinates2: Coordinates,
+  ): number {
+    return Math.hypot(
+      Coordinates1.x - Coordinates2.x,
+      Coordinates1.y - Coordinates2.y,
+    );
   }
 
   /**
@@ -33,9 +38,9 @@ export class Utils {
    * @param FIELD_WIDTH
    */
   public static getRandomCoordinates(FIELD_WIDTH: number): Coordinates {
-    return new Coordinates(Utils.getRandomInt(FIELD_WIDTH), Utils.getRandomInt(FIELD_WIDTH));
+    return new Coordinates(
+      Utils.getRandomInt(FIELD_WIDTH),
+      Utils.getRandomInt(FIELD_WIDTH),
+    );
   }
-
-
 }
-
