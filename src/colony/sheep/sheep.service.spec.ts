@@ -1,22 +1,22 @@
-import { SheepService } from "./sheep.service";
-import { Coordinates } from "../../coordinates/coordinates.model";
-import { SheepModel } from "./sheep.model";
-import { NotFoundException } from "@nestjs/common";
+import { SheepService } from './sheep.service';
+import { Coordinates } from '../../coordinates/coordinates.model';
+import { SheepModel } from './sheep.model';
+import { NotFoundException } from '@nestjs/common';
 
-describe("SheepServiceTest", () => {
+describe('SheepServiceTest', () => {
   let sheepService: SheepService;
 
   beforeEach(() => {
     sheepService = new SheepService();
   });
 
-  describe("Add new sheep", () => {
-    test("sheeps collection should be empty", () => {
+  describe('Add new sheep', () => {
+    test('sheeps collection should be empty', () => {
       let sheeps = sheepService.getAllSheeps();
       expect(sheeps).toStrictEqual([]);
     });
 
-    it("should add a new sheep", () => {
+    it('should add a new sheep', () => {
       let mockSheep = new SheepModel(1, new Coordinates(5, 5));
       sheepService.addSheep(mockSheep);
       let sheeps = sheepService.getAllSheeps();
@@ -27,23 +27,23 @@ describe("SheepServiceTest", () => {
     });
   });
 
-  describe("get sheep by id", () => {
-    it("should return  the correct sheep", () => {
+  describe('get sheep by id', () => {
+    it('should return  the correct sheep', () => {
       let mockSheep = new SheepModel(4, new Coordinates(5, 5));
       sheepService.addSheep(mockSheep);
       let sheep = sheepService.findSheep(4);
       expect(sheep).toBe(mockSheep);
     });
 
-    it("should throw NotFoundException if sheep is not available", () => {
+    it('should throw NotFoundException if sheep is not available', () => {
       let mockSheep = new SheepModel(4, new Coordinates(5, 5));
       sheepService.addSheep(mockSheep);
       expect(() => sheepService.findSheep(3)).toThrow(NotFoundException);
     });
   });
 
-  describe("get all sheeps", () => {
-    it("should return all the sheeps", () => {
+  describe('get all sheeps', () => {
+    it('should return all the sheeps', () => {
       let mockSheep1 = new SheepModel(1, new Coordinates(5, 5));
       let mockSheep2 = new SheepModel(2, new Coordinates(6, 6));
       let mockSheep3 = new SheepModel(3, new Coordinates(7, 7));
@@ -55,8 +55,8 @@ describe("SheepServiceTest", () => {
     });
   });
 
-  describe("remove a sheep", () => {
-    it("should remove a sheep", () => {
+  describe('remove a sheep', () => {
+    it('should remove a sheep', () => {
       let mockSheep1 = new SheepModel(1, new Coordinates(5, 5));
       let mockSheep2 = new SheepModel(2, new Coordinates(6, 6));
       sheepService.addSheep(mockSheep1);
@@ -69,8 +69,8 @@ describe("SheepServiceTest", () => {
     });
   });
 
-  describe("update Sheep Positions", () => {
-    it("should update all sheep positions", () => {
+  describe('update Sheep Positions', () => {
+    it('should update all sheep positions', () => {
       let mockSheep1 = new SheepModel(1, new Coordinates(5, 10));
       let mockSheep2 = new SheepModel(2, new Coordinates(6, 10));
       let mockSheep3 = new SheepModel(3, new Coordinates(7, 10));
@@ -87,6 +87,4 @@ describe("SheepServiceTest", () => {
       expect(mockSheep3.getPosition.x).toBe(6);
     });
   });
-
-
 });

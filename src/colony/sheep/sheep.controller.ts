@@ -1,8 +1,7 @@
-import { Controller, Param } from "@nestjs/common";
-import { SheepService } from "./sheep.service";
-import { SheepModel } from "./sheep.model";
-import { Coordinates } from "../../coordinates/coordinates.model";
-
+import { Controller, Param } from '@nestjs/common';
+import { SheepService } from './sheep.service';
+import { SheepModel } from './sheep.model';
+import { Coordinates } from '../../coordinates/coordinates.model';
 
 @Controller()
 export class SheepController {
@@ -39,7 +38,7 @@ export class SheepController {
    * finds sheep by id
    * @param sheepId
    */
-  findOneSheep(@Param("id") sheepId: number): any {
+  findOneSheep(@Param('id') sheepId: number): any {
     return this.sheepService.findSheep(sheepId);
   }
 
@@ -49,7 +48,15 @@ export class SheepController {
    * @param wolfPosition
    * @param FIELD_WIDTH
    */
-  updateSheepPositions(sheepSpeed: number, wolfPosition: Coordinates, FIELD_WIDTH: number): void {
-    this.sheepService.updateSheepPositions(sheepSpeed, wolfPosition, FIELD_WIDTH);
+  updateSheepPositions(
+    sheepSpeed: number,
+    wolfPosition: Coordinates,
+    FIELD_WIDTH: number,
+  ): void {
+    this.sheepService.updateSheepPositions(
+      sheepSpeed,
+      wolfPosition,
+      FIELD_WIDTH,
+    );
   }
 }

@@ -1,6 +1,5 @@
-import { Coordinates } from "../../coordinates/coordinates.model";
-import { Animal } from "../Animal.abstract";
-
+import { Coordinates } from '../../coordinates/coordinates.model';
+import { Animal } from '../Animal.abstract';
 
 export class SheepModel extends Animal {
   private _isDead: boolean;
@@ -17,5 +16,4 @@ export class SheepModel extends Animal {
   set dead(value: boolean) {
     this._isDead = value;
   }
-
 }

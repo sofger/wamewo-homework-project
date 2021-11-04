@@ -1,34 +1,34 @@
-import { Coordinates } from "../../coordinates/coordinates.model";
-import { NotFoundException } from "@nestjs/common";
-import { WolfService } from "./wolf.service";
-import { WolfModel } from "./wolf.model";
-import { SheepModel } from "../sheep/sheep.model";
+import { Coordinates } from '../../coordinates/coordinates.model';
+import { NotFoundException } from '@nestjs/common';
+import { WolfService } from './wolf.service';
+import { WolfModel } from './wolf.model';
+import { SheepModel } from '../sheep/sheep.model';
 
-describe("WolfServiceTest", () => {
+describe('WolfServiceTest', () => {
   let wolfService: WolfService;
 
   beforeEach(() => {
     wolfService = new WolfService();
   });
 
-  describe("Add new wolf", () => {
+  describe('Add new wolf', () => {
     let wolfMock = new WolfModel(2, new Coordinates(10, 10), 10);
-    
-    it("should throw NotFoundException if no wolf created", () => {
+
+    it('should throw NotFoundException if no wolf created', () => {
       expect(() => wolfService.getWolf()).toThrow(NotFoundException);
     });
 
-    it("should add a new created wolf", () => {
+    it('should add a new created wolf', () => {
       wolfService.addWolf(wolfMock);
       let wolf = wolfService.getWolf();
       expect(wolf).toBe(wolfMock);
     });
   });
 
-  describe("update Wolf Size", () => {
+  describe('update Wolf Size', () => {
     let wolfMock = new WolfModel(2, new Coordinates(10, 10), 10);
 
-    it("should update wolf size", () => {
+    it('should update wolf size', () => {
       wolfService.addWolf(wolfMock);
       let wolf = wolfService.getWolf();
       expect(wolf.size).toBe(10);
@@ -40,36 +40,35 @@ describe("WolfServiceTest", () => {
       expect(wolf.size).toBe(16);
     });
 
-    it("should throw exception with negative numbers", () => {
+    it('should throw exception with negative numbers', () => {
       wolfService.addWolf(wolfMock);
       expect(() => wolfService.updateWolfSize(-5)).toThrow(RangeError);
     });
-
   });
 
-  describe("get Closest Sheep", () => {
-
+  describe('get Closest Sheep', () => {
     let wolfMock: WolfModel = new WolfModel(2, new Coordinates(10, 10), 10);
     let sheepMock1: SheepModel = new SheepModel(1, new Coordinates(11, 11));
     let sheepMock2: SheepModel = new SheepModel(2, new Coordinates(25, 25));
     let sheepMock3: SheepModel = new SheepModel(3, new Coordinates(50, 50));
     let sheepMocks = [sheepMock3, sheepMock2, sheepMock1];
 
-    it("should return closest sheep", () => {
+    it('should return closest sheep', () => {
       wolfService.addWolf(wolfMock);
       let closestSheep = wolfService.getClosestSheep(sheepMocks);
       expect(closestSheep).toBe(sheepMock1);
     });
 
-    it("should throw NotFoundException exception if no sheeps provided", () => {
+    it('should throw NotFoundException exception if no sheeps provided', () => {
       wolfService.addWolf(wolfMock);
       let sheepMocks = [];
-      expect(() => wolfService.getClosestSheep(sheepMocks)).toThrow(NotFoundException);
+      expect(() => wolfService.getClosestSheep(sheepMocks)).toThrow(
+        NotFoundException,
+      );
     });
   });
 
-
-  describe("update wolf position", () => {
+  describe('update wolf position', () => {
     let sheepMock1: SheepModel = new SheepModel(1, new Coordinates(5, 10));
     let sheepMock2: SheepModel = new SheepModel(2, new Coordinates(25, 25));
     let sheepMock3: SheepModel = new SheepModel(3, new Coordinates(50, 50));
@@ -77,7 +76,7 @@ describe("WolfServiceTest", () => {
     let sheepMocks = [sheepMock3, sheepMock2, sheepMock1];
     let wolfMock: WolfModel = new WolfModel(2, new Coordinates(10, 10), 10);
 
-    it("should update wolf position for closest sheep", () => {
+    it('should update wolf position for closest sheep', () => {
       wolfService.addWolf(wolfMock);
       wolfService.updateWolfPosition(2, sheepMocks, 100);
       wolfMock = wolfService.getWolf();
@@ -85,7 +84,7 @@ describe("WolfServiceTest", () => {
       expect(wolfMock.getPosition.y).toBe(10);
     });
 
-    it("should update wolf position with wolfspeed", () => {
+    it('should update wolf position with wolfspeed', () => {
       let wolfMock = new WolfModel(3, new Coordinates(10, 10), 10);
       wolfService.addWolf(wolfMock);
       wolfService.updateWolfPosition(1, sheepMocks, 100);
@@ -97,11 +96,9 @@ describe("WolfServiceTest", () => {
       expect(wolfMock.getPosition.x).toBe(6);
       expect(wolfMock.getPosition.y).toBe(10);
     });
-
   });
 
-  describe("Sheep Consume test", () => {
-
+  describe('Sheep Consume test', () => {
     let sheepMock1: SheepModel = new SheepModel(1, new Coordinates(10, 10));
     let sheepMock2: SheepModel = new SheepModel(2, new Coordinates(25, 25));
     let sheepMock3: SheepModel = new SheepModel(3, new Coordinates(50, 50));
@@ -109,20 +106,17 @@ describe("WolfServiceTest", () => {
     let sheepMocks = [sheepMock3, sheepMock2, sheepMock1];
     let wolfMock: WolfModel = new WolfModel(2, new Coordinates(10, 10), 10);
 
-    it("should return sheep if wolf position is equal to closest sheep", () => {
+    it('should return sheep if wolf position is equal to closest sheep', () => {
       wolfService.addWolf(wolfMock);
       let result: any = wolfService.getSheepIfWolfCanConsumeIt(sheepMocks);
       expect(result).toStrictEqual(sheepMock1);
     });
 
-    it("should return null if wolf position is not equal to closest sheep", () => {
+    it('should return null if wolf position is not equal to closest sheep', () => {
       wolfService.addWolf(wolfMock);
       sheepMocks.splice(2, 1);
       let result: any = wolfService.getSheepIfWolfCanConsumeIt(sheepMocks);
       expect(result).toBe(null);
     });
-
   });
-
-
 });

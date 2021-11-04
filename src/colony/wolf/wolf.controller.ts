@@ -1,11 +1,10 @@
-import { Controller } from "@nestjs/common";
-import { WolfService } from "./wolf.service";
-import { SheepModel } from "../sheep/sheep.model";
-import { WolfModel } from "./wolf.model";
+import { Controller } from '@nestjs/common';
+import { WolfService } from './wolf.service';
+import { SheepModel } from '../sheep/sheep.model';
+import { WolfModel } from './wolf.model';
 
 @Controller()
 export class WolfController {
-
   private wolfService: WolfService;
 
   constructor(wolfService: WolfService) {
@@ -41,7 +40,11 @@ export class WolfController {
    * @param sheeps
    * @param FIELD_WIDTH
    */
-  updateWolfPosition(wolfSpeed: number, sheeps: SheepModel[], FIELD_WIDTH): void {
+  updateWolfPosition(
+    wolfSpeed: number,
+    sheeps: SheepModel[],
+    FIELD_WIDTH,
+  ): void {
     this.wolfService.updateWolfPosition(wolfSpeed, sheeps, FIELD_WIDTH);
   }
 

@@ -1,9 +1,5 @@
 export class Coordinates {
-  constructor(private _x: number,
-              private _y: number
-  ) {
-  }
-
+  constructor(private _x: number, private _y: number) {}
 
   get x(): number {
     return this._x;

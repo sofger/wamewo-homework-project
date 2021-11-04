@@ -1,5 +1,5 @@
-import { Coordinates } from "../../coordinates/coordinates.model";
-import { Animal } from "../Animal.abstract";
+import { Coordinates } from '../../coordinates/coordinates.model';
+import { Animal } from '../Animal.abstract';
 
 export class WolfModel extends Animal {
   constructor(id: number, coordinate: Coordinates, size: number) {
@@ -16,5 +16,4 @@ export class WolfModel extends Animal {
   set size(value: number) {
     this._size = value;
   }
-
 }

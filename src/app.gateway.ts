@@ -3,26 +3,29 @@ import {
   OnGatewayDisconnect,
   OnGatewayInit,
   WebSocketGateway,
-  WebSocketServer
-} from "@nestjs/websockets";
-import { Logger } from "@nestjs/common";
-import { Server, Socket } from "socket.io";
-import { Utils } from "./util/utils";
-import { SheepService } from "./colony/sheep/sheep.service";
-import { SheepController } from "./colony/sheep/sheep.controller";
-import { WolfController } from "./colony/wolf/wolf.controller";
-import { WolfService } from "./colony/wolf/wolf.service";
-import { Coordinates } from "./coordinates/coordinates.model";
-import { WolfModel } from "./colony/wolf/wolf.model";
-import { SheepModel } from "./colony/sheep/sheep.model";
+  WebSocketServer,
+} from '@nestjs/websockets';
+import { Logger } from '@nestjs/common';
+import { Server, Socket } from 'socket.io';
+import { Utils } from './util/utils';
+import { SheepService } from './colony/sheep/sheep.service';
+import { SheepController } from './colony/sheep/sheep.controller';
+import { WolfController } from './colony/wolf/wolf.controller';
+import { WolfService } from './colony/wolf/wolf.service';
+import { Coordinates } from './coordinates/coordinates.model';
+import { WolfModel } from './colony/wolf/wolf.model';
+import { SheepModel } from './colony/sheep/sheep.model';
 
 @WebSocketGateway()
-export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGatewayConnection {
-
-  private _logger: Logger = new Logger("AppGateway");
+export class AppGateway
+  implements OnGatewayInit, OnGatewayDisconnect, OnGatewayConnection
+{
+  private _logger: Logger = new Logger('AppGateway');
   private sheepService: SheepService = new SheepService();
   private wolfService: WolfService = new WolfService();
-  private sheepController: SheepController = new SheepController(this.sheepService);
+  private sheepController: SheepController = new SheepController(
+    this.sheepService,
+  );
   private wolfController: WolfController = new WolfController(this.wolfService);
 
   private _FIELD_SIZE: number;
@@ -46,8 +49,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
   @WebSocketServer() private _wss: Server;
 
   afterInit(server: Server): void {
-    this.logger.log("Init!");
-    this.wss.emit("msgToClient", "Init!");
+    this.logger.log('Init!');
+    this.wss.emit('msgToClient', 'Init!');
     this.FIELD_SIZE = 600;
     this.generateAnimals(10);
   }
@@ -69,8 +72,15 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
       sheep = new SheepModel(id, randomCoordinates);
       this.sheepController.addSheep(sheep);
     }
-    let centerCoordinate: Coordinates = new Coordinates(Math.floor(this.FIELD_SIZE / 2), Math.floor(this.FIELD_SIZE / 2));
-    let wolf = new WolfModel(Math.floor(Math.random() * 300), centerCoordinate, 10);
+    let centerCoordinate: Coordinates = new Coordinates(
+      Math.floor(this.FIELD_SIZE / 2),
+      Math.floor(this.FIELD_SIZE / 2),
+    );
+    let wolf = new WolfModel(
+      Math.floor(Math.random() * 300),
+      centerCoordinate,
+      10,
+    );
     this.wolfController.addWolf(wolf);
   }
 
@@ -96,11 +106,19 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
       wolf = this.wolfController.getWolf();
       sheeps = this.sheepController.getAllSheeps();
       if (sheeps.length === 0) break;
-      this.sheepController.updateSheepPositions(1, wolf.getPosition, this.FIELD_SIZE);
-      this.wolfController.updateWolfPosition(wolfSpeed, sheeps, this.FIELD_SIZE);
+      this.sheepController.updateSheepPositions(
+        1,
+        wolf.getPosition,
+        this.FIELD_SIZE,
+      );
+      this.wolfController.updateWolfPosition(
+        wolfSpeed,
+        sheeps,
+        this.FIELD_SIZE,
+      );
       await Utils.delay(50);
-      webSocketService.emit("wolf", wolf);
-      webSocketService.emit("sheeps", sheeps);
+      webSocketService.emit('wolf', wolf);
+      webSocketService.emit('sheeps', sheeps);
       consumableSheep = this.wolfController.getSheepIfWolfCanConsumeIt(sheeps);
       if (consumableSheep) {
         this.sheepController.removeSheep(consumableSheep);
@@ -108,7 +126,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayDisconnect, OnGateway
         wolfSpeed--;
       }
     } while (sheeps.length > 0);
-    this.logger.log("Simulation Ended!");
-    webSocketService.emit("end");
+    this.logger.log('Simulation Ended!');
+    webSocketService.emit('end');
   }
 }
