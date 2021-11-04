@@ -33,7 +33,10 @@ const updateSheeps = (sheeps) => {
   context.lineWidth = 1;
   context.strokeStyle = '#092c9d';
   for (let sheep of sheeps) {
-    context.fillRect(sheep._position._x, sheep._position._y, 10, 10);
+    context.beginPath();
+    context.arc(sheep._position._x, sheep._position._y, 8, 0, 2 * Math.PI);
+    context.fill();
+    context.stroke();
   }
 };
 
