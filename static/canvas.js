@@ -10,6 +10,7 @@ socket = io("http://localhost:3000");
 const updateWolf = (wolf) => {
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.beginPath();
+  context.fillStyle = "red";
   context.arc(wolf._position._x, wolf._position._y, wolf._size, 0, 2 * Math.PI, false);
   context.fill();
   context.lineWidth = 1;
@@ -21,7 +22,7 @@ const updateWolf = (wolf) => {
  * @param sheeps
  */
 const updateSheeps = (sheeps) => {
-  context.fillStyle = "red";
+  context.fillStyle = "blue";
   context.lineWidth = 1;
   context.strokeStyle = "#092c9d";
   for (let sheep of sheeps) {
